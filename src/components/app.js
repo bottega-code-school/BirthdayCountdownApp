@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+
 import Picker from './picker';
 import Button from './button';
 import Clock from './clock';
 import ChangeDate from './changeDate';
 import LargeText from './largeText';
+
+import moment from 'moment';
 
 export default class App extends Component {
 
@@ -11,17 +14,26 @@ export default class App extends Component {
     super(props)
 
     this.state = {
-      active: false
+      active: false,
+      startDate: moment()
     }
   }
 
+  handleChange = function(date) {
+    console.log('APP JS HANDLE CHANGE', date._d);
+    this.setState({
+      startDate: date
+    });
+  }.bind(this)
+
   handleGenerate = function() {
     this.setState({ active: true })
-    // Set the date we're counting down to
-  var countDownDate = new Date("Sep 5, 2018 15:37:25").getTime();
+      // Set the date we're counting down to
+    
+    var countDownDate = this.state.startDate.toDate().getTime();
 
-  // Update the count down every 1 second
-  var x = setInterval(function() {
+    // Update the count down every 1 second
+    var x = setInterval(function() {
 
     // Get todays date and time
     var now = new Date().getTime();
@@ -57,7 +69,7 @@ export default class App extends Component {
       ]
     } else {
       return [
-        <Picker/>,
+        <Picker callback={(date) => this.handleChange(date)}/>,
         Button('Generate Countdown', () => this.handleGenerate())
       ]
     }
