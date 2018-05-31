@@ -31,14 +31,14 @@ export default class App extends Component {
 
   handleChange = function(date) {
     console.log("APP JS HANDLE CHANGE", date._d);
-    clearInterval(this.timer)
+   
     this.setState({
       startDate: date
     });
   }.bind(this);
 
   handleGenerate = function() {
-    
+    clearInterval(this.timer)
    
     var bday = this.state.startDate.toDate();
     var today = new Date();
@@ -73,7 +73,7 @@ export default class App extends Component {
 
     this.timer = setInterval(function() {
 
-      var now = today.getTime();
+      var now = moment().toDate().getTime();
       var distance = countDownDate - now;
 
       var days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -90,6 +90,7 @@ export default class App extends Component {
         minutes,
         seconds
       };
+      
       this.setState({ timeRemaining });
 
       if (distance < 0) {
